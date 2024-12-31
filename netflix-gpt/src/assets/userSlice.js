@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
     name:'user',
     initialState:null,
     reducers:{
-        adduser:(state,action)=>{
+        addUser:(state,action)=>{
             return action.payload;
         },
         removeUser:(state,action)=>{

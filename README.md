@@ -12,6 +12,8 @@ npm create vite@latest {project name}
 -create signup user account
 -implemented sigin in
 -created redux store with user slice
+-implemented signout
+-update profile api call also ,we will 
 -
 -
 #features

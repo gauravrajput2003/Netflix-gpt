@@ -1,78 +1,105 @@
 import React, { useState, useRef } from 'react';
 import Header from './Header';
 import { checkvalidData } from '../assets/Validate';
-import {  createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../../Firebase';
-
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser,removeUser} from '../assets/userSlice';
 
 const Login = () => {
   const [issignin, setIssignin] = useState(true);
   const [errorMsg, setErrorMsg] = useState({});
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [photoURL, setPhotoURL] = useState(null); // State to store photo URL
   const email = useRef(null);
+  const name = useRef(null);
+  const dispatch=useDispatch();
   const password = useRef(null);
+  const navigate = useNavigate();
 
-  const handleSignin = () => {
-    setIssignin(!issignin);
-  };
+  const handleSignin = () => setIssignin(!issignin);
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const msg = checkvalidData(email.current.value, password.current.value);
     setErrorMsg(msg);
-    if (Object.keys(msg).length != 0) return;
-    //proceed further
-    if(!issignin){
-      //signup logic
-      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
-      .then((userCredential) => {
-        // Signed up 
-        const user = userCredential.user;
-        console.log(user);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMsg({ general: errorCode + " - " + errorMessage })
-        // ..
-      });
+
+    if (Object.keys(msg).length !== 0) return;
+
+    setIsLoading(true);
+    try {
+      let user = null;
+
+      if (!issignin) {
+        // Sign-up logic
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        );
+
+        user = userCredential.user;
+
+        // Update profile
+        await updateProfile(user, {
+          displayName: name.current.value,
+          photoURL: "https://avatars.githubusercontent.com/u/138980732?v=4",
+        }).then(()=>{
+          const {uid,email,displayName,photoURL}=auth.currentUser; 
+              dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL})); 
+        });
+
+        alert("Sign up success, please sign in");
+      } else {
+        // Sign-in logic
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        );
+
+        user = userCredential.user;
+      }
+
+      // Set the photoURL in state
+      setPhotoURL(user.photoURL || "https://avatars.githubusercontent.com/u/138980732?v=4");
+
+      // Navigate to browse after successful sign-up or sign-in
+      navigate("/browse");
+    } catch (error) {
+      setErrorMsg({ general: `${error.code} - ${error.message}` });
+    } finally {
+      setIsLoading(false);
     }
-    else{
-      //sigin logic
-      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
-  .then((userCredential) => {
-    // Signed in 
-    
-    const user = userCredential.user;
-    // ...
-    alert('sign in successfull')
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    setErrorMsg({ general: errorCode + " - " + errorMessage })
-  });
-    }
-  
   };
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible); // Toggle password visibility
-  };
+
+  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
 
   return (
     <div>
-      <Header />
-      <div className='absolute'>
-        <img className='w-full' src='https://assets.nflxext.com/ffe/siteui/vlv3/aa9edac4-a0e6-4f12-896e-32c518daec62/web/IN-en-20241223-TRIFECTA-perspective_1502c512-be5f-4f14-b21a-e3d75fe159ab_small.jpg' alt='netflix' />
+      <Header photoURL={photoURL} /> {/* Pass photoURL to Header */}
+      <div className="absolute">
+        <img
+          className="w-full"
+          src="https://assets.nflxext.com/ffe/siteui/vlv3/aa9edac4-a0e6-4f12-896e-32c518daec62/web/IN-en-20241223-TRIFECTA-perspective_1502c512-be5f-4f14-b21a-e3d75fe159ab_small.jpg"
+          alt="Netflix background"
+        />
       </div>
-      <div className='py-36 rounded-lg'>
-        <form className='w-3/12 relative p-12 bg-black mx-auto left-0 right-0 text-white rounded-lg bg-opacity-80' onSubmit={handleSubmit}>
-          <h1 className='font-bold text-3xl'>{issignin ? "Sign In" : "Sign Up"}</h1>
-          { !issignin && (
-            <>
-              <input type='text' placeholder='enter full name' className='p-4 my-4 w-full bg-gray-600 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white transition duration-300 ease-in-out' />
-            </>
+      <div className="py-36 rounded-lg">
+        <form
+          className="w-3/12 relative p-12 bg-black mx-auto text-white rounded-lg bg-opacity-80"
+          onSubmit={handleSubmit}
+        >
+          <h1 className="font-bold text-3xl">{issignin ? "Sign In" : "Sign Up"}</h1>
+          {!issignin && (
+            <input
+              ref={name}
+              type="text"
+              placeholder="Enter full name"
+              className="p-4 my-4 w-full bg-gray-600 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white transition duration-300 ease-in-out"
+            />
           )}
           <input
             type="email"
@@ -81,30 +108,29 @@ const Login = () => {
             className="p-4 my-4 w-full bg-gray-600 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
           />
           {errorMsg.email && <p className="text-red-500 text-lg font-bold">{errorMsg.email}</p>}
-          <div className="relative ">
-            <input 
-              ref={password} 
-              type={passwordVisible ? 'text' : 'password'} 
-              placeholder='enter password' 
-              className='p-4 my-4 w-full bg-gray-600 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white transition duration-300 ease-in-out' 
+          <div className="relative">
+            <input
+              ref={password}
+              type={passwordVisible ? 'text' : 'password'}
+              placeholder="Enter password"
+              className="p-4 my-4 w-full bg-gray-600 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white transition duration-300 ease-in-out"
             />
-        
-            <button 
-              type="button" 
-              onClick={togglePasswordVisibility} 
-              className="absolute right-4 top-4 text-white text-lg font-bold  "
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-4 top-4 text-white text-lg font-bold"
             >
               {passwordVisible ? '👁️' : '👁️'}
             </button>
           </div>
           {errorMsg.password && <p className="text-red-500 text-lg font-bold">{errorMsg.password}</p>}
-          {errorMsg.general && (
-        <p className="text-red-500 text-lg font-bold my-2">{errorMsg.general}</p>
-      )}
-      
-          
-          <button type="submit" className="p-4 my-6 w-full bg-red-800 rounded-lg font-bold text-[20px]">
-            {issignin ? "Sign In" : "Sign Up"}
+          {errorMsg.general && <p className="text-red-500 text-lg font-bold my-2">{errorMsg.general}</p>}
+          <button
+            type="submit"
+            className="p-4 my-6 w-full bg-red-800 rounded-lg font-bold text-[20px]"
+            disabled={isLoading}
+          >
+            {isLoading ? "Processing..." : issignin ? "Sign In" : "Sign Up"}
           </button>
           <h1 className="font-bold cursor-pointer" onClick={handleSignin}>
             {issignin ? "New to Netflix? Sign up" : "Already have an account? Sign in"}
