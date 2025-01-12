@@ -3,9 +3,10 @@ import Header from './Header';
 import { checkvalidData } from '../assets/Validate';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../../Firebase';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addUser,removeUser} from '../assets/userSlice';
+import { addUser,removeUser } from '../assets/userSlice';
+import { Photo_Url } from '../assets/Contsant';
+
 
 const Login = () => {
   const [issignin, setIssignin] = useState(true);
@@ -17,7 +18,6 @@ const Login = () => {
   const name = useRef(null);
   const dispatch=useDispatch();
   const password = useRef(null);
-  const navigate = useNavigate();
 
   const handleSignin = () => setIssignin(!issignin);
 
@@ -45,7 +45,7 @@ const Login = () => {
         // Update profile
         await updateProfile(user, {
           displayName: name.current.value,
-          photoURL: "https://avatars.githubusercontent.com/u/138980732?v=4",
+          photoURL: Photo_Url,
         }).then(()=>{
           const {uid,email,displayName,photoURL}=auth.currentUser; 
               dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL})); 
@@ -67,7 +67,6 @@ const Login = () => {
       setPhotoURL(user.photoURL || "https://avatars.githubusercontent.com/u/138980732?v=4");
 
       // Navigate to browse after successful sign-up or sign-in
-      navigate("/browse");
     } catch (error) {
       setErrorMsg({ general: `${error.code} - ${error.message}` });
     } finally {
@@ -98,14 +97,16 @@ const Login = () => {
               ref={name}
               type="text"
               placeholder="Enter full name"
-              className="p-4 my-4 w-full bg-gray-600 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white transition duration-300 ease-in-out"
+              className="p-4 my-4 w-full bg-gray-600 focus:bg-black focus:outline-none focus:ring-2 focus:ring-blue-700 transition duration-300 ease-in-out"
             />
           )}
           <input
             type="email"
             placeholder="Enter email address"
             ref={email}
-            className="p-4 my-4 w-full bg-gray-600 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
+            onFocus={(e) => e.target.placeholder = ""}
+            onBlur={(e) => e.target.placeholder = "Enter email address"}
+            className="p-4 my-4 w-full bg-gray-600 focus:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
           />
           {errorMsg.email && <p className="text-red-500 text-lg font-bold">{errorMsg.email}</p>}
           <div className="relative">
@@ -113,7 +114,7 @@ const Login = () => {
               ref={password}
               type={passwordVisible ? 'text' : 'password'}
               placeholder="Enter password"
-              className="p-4 my-4 w-full bg-gray-600 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white transition duration-300 ease-in-out"
+              className="p-4 my-4 w-full bg-gray-600 focus:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
             />
             <button
               type="button"

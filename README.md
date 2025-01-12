@@ -14,7 +14,9 @@ npm create vite@latest {project name}
 -created redux store with user slice
 -implemented signout
 -update profile api call also ,we will 
--
+-resgisteresd tmdb api and create app
+-get data from tmbd 
+
 -
 #features
 -login/signup
