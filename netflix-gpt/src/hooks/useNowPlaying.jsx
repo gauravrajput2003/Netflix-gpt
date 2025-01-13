@@ -11,10 +11,10 @@ const useNowPlaying = (movie_id) => {
         throw new Error('Network response was not ok');
       }
       const json = await response.json();
-      console.log(json.results);
+      // console.log(json.results);
       dispatch(addPlayingMovie(json.results));
     } catch (error) {
-      console.error('Fetch error:', error);
+     
     }
   };
   useEffect(() => {

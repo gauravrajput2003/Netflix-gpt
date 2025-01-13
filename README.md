@@ -16,6 +16,15 @@ npm create vite@latest {project name}
 -update profile api call also ,we will 
 -resgisteresd tmdb api and create app
 -get data from tmbd 
+-created custom hooks
+-create a movie silces
+-planning for main and secondry container
+-fetch data for trailer video
+-update store with trailer video
+-embedded the you video 
+-make it you video mute and auto play
+-
+
 
 -
 #features

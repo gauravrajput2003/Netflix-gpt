@@ -13,7 +13,7 @@ const useMovietrailer = (movie_id) => {
         throw new Error('Network response was not ok');
       }
       const json = await response.json();
-      console.log(json);
+     
       const filterData = json.results.filter((video) => video.type === "Trailer");
       const trailer = filterData.length ? filterData[0] : json.results[0];
       dispatch(addTrailervideo(trailer));
