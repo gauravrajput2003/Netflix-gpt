@@ -24,7 +24,7 @@ npm create vite@latest {project name}
 -embedded the you video 
 -make it you video mute and auto play
 -
-
+ 
 
 -
 #features

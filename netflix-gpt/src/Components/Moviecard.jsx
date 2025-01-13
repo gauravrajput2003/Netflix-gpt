@@ -1,0 +1,21 @@
+import React from 'react';
+import { IMG_CDN_URL } from '../assets/Contsant';
+
+const Moviecard = ({ posterPath }) => {
+  return (
+    <div className="w-64 h-96 flex-shrink-0"> {/* Increased dimensions */}
+      <div className="relative">
+        <img
+          alt="movies"
+          src={IMG_CDN_URL + posterPath}
+          className="w-full h-full object-cover rounded-lg shadow-lg"
+        />
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent text-white text-center py-4 rounded-b-lg">
+          <p className="text-lg font-semibold">Movie Title</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Moviecard;

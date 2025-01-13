@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import useNowPlaying from '../hooks/useNowPlaying';
 import Maincontainer from './maincontainer';
+import Secondarycontainer from './Secondarycontainer';
 
 const Browse = () => {
   useNowPlaying();
@@ -10,6 +11,7 @@ const Browse = () => {
     <div>
       <Header />
       <Maincontainer />
+      <Secondarycontainer/>
     </div>
   );
 };
