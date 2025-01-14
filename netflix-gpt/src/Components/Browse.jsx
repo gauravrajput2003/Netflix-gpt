@@ -3,12 +3,19 @@ import Header from './Header';
 import useNowPlaying from '../hooks/useNowPlaying';
 import Maincontainer from './maincontainer';
 import Secondarycontainer from './Secondarycontainer';
+import usePopularMovies from '../hooks/usetopratedMovies';
+import usetopratedMovies from '../hooks/usetopratedMovies';
+import useUpcomig from '../hooks/useUpcomig';
+
 
 const Browse = () => {
   useNowPlaying();
+  usePopularMovies();
+  usetopratedMovies();
+  useUpcomig();
 
   return (
-    <div>
+    <div className='relative'>
       <Header />
       <Maincontainer />
       <Secondarycontainer/>
