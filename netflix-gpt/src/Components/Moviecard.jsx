@@ -3,7 +3,7 @@ import { IMG_CDN_URL } from '../assets/Contsant';
 
 const Moviecard = ({ posterPath }) => {
   return (
-    <div className="w-64 h-96 flex-shrink-0"> {/* Increased dimensions */}
+    <div className="w-64 h- flex-shrink-0"> {/* Increased dimensions */}
       <div className="relative">
         <img
           alt="movies"

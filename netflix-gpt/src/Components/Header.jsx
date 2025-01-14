@@ -37,7 +37,7 @@ const Header = () => {
   };
 
   return (
-    <div className="absolute  w-screen px-8 py-2 z-20 flex justify-between items-center bg-gradient-to-b from-black to-transparent ">
+    <div className="absolute  w-screen px-8  z-20 flex justify-between items-center bg-gradient-to-b from-black to-transparent ">
       <img
         className="w-44 drop-shadow-lg bg-opacity-80 p-2 rounded-md"
         src={LOGO_URL}
@@ -53,8 +53,8 @@ const Header = () => {
                 src={user.photoURL}
               />
             ) : (
-              <div className="h-12 w-12 rounded-full bg-gray-500 flex items-center justify-center text-white">
-                ?
+              <div className="h-12 w-12 rounded-full bg-gray-500 flex items-center justify-center text-white text-5xl cursor-pointer">
+                😎
               </div>
             )}
             <button

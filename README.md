@@ -23,6 +23,10 @@ npm create vite@latest {project name}
 -update store with trailer video
 -embedded the you video 
 -make it you video mute and auto play
+-build movies list
+-build image cdn 
+-build secondary container
+-added popular ,toprated etc custom hooks added
 -
  
 

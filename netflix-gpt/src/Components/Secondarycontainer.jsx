@@ -9,11 +9,11 @@ const Secondarycontainer = () => {
   const upcomingMovies = useSelector(store => store.movies?.upcomingMovies);
 
 
-  console.log('Popular Movies:', popularMovies); // Debugging
+  //console.log('Popular Movies:', popularMovies); // Debugging
 
   return (
     <div className='bg-black'>
-      <div className='-mt-52 pl-12 relative z-20'>
+      <div className='-mt-52 relative z-20 py-20'>
         <Movielist title={"Now Playing"} movies={nowPlayingMovies} />
         <Movielist title={"Popular Movies"} movies={popularMovies} />
         <Movielist title={"Top Rated Movies"} movies={topRatedMovies} />
