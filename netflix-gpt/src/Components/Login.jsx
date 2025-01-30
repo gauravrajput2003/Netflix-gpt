@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import { auth } from '../../Firebase';
 import { useDispatch } from 'react-redux';
 import { addUser,removeUser } from '../assets/userSlice';
-import { Photo_Url } from '../assets/Contsant';
+import { BG_URL, Photo_Url } from '../assets/Contsant';
 
 
 const Login = () => {
@@ -82,7 +82,7 @@ const Login = () => {
       <div className="absolute">
         <img
           className="w-full"
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/aa9edac4-a0e6-4f12-896e-32c518daec62/web/IN-en-20241223-TRIFECTA-perspective_1502c512-be5f-4f14-b21a-e3d75fe159ab_small.jpg"
+          src={BG_URL}
           alt="Netflix background"
         />
       </div>

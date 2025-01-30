@@ -27,7 +27,7 @@ npm create vite@latest {project name}
 -build image cdn 
 -build secondary container
 -added popular ,toprated etc custom hooks added
--
+-Gpt search Features
  
 
 -

@@ -1,12 +1,13 @@
-// filepath: /d:/Netflix-gpt/netflix-gpt/tailwind.config.js
 module.exports = {
   content: [
-    "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
+    './src/**/*.{js,jsx,ts,tsx}', // Adjust the paths as needed
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#1DA1F2', // Define your custom color here
+      },
+    },
   },
   plugins: [],
-}
-
+};

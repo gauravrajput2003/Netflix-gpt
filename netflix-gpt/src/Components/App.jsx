@@ -10,7 +10,6 @@ function App() {
     <div >
       <Provider store={appStore}>
       <Body/>
-
       </Provider>
     </div>
   )

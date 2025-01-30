@@ -14,7 +14,7 @@ const usePopularMovies = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const json = await response.json();
-      console.log('Popular Movies:', json.results); // Debugging
+      // console.log('Popular Movies:', json.results); // Debugging
       dispatch(addPopularMovies(json.results));
     } catch (error) {
       console.error('Fetch error:', error.message);

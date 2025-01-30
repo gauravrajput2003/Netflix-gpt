@@ -9,6 +9,7 @@ input::placeholder {
 input:focus::placeholder {
   opacity: 0.5;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
