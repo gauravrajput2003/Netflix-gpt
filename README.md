@@ -28,6 +28,8 @@ npm create vite@latest {project name}
 -build secondary container
 -added popular ,toprated etc custom hooks added
 -Gpt search Features
+-multi language features
+-integrate gpt apis
  
 
 -
