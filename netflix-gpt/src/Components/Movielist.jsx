@@ -2,7 +2,7 @@ import React from 'react';
 import Moviecard from './Moviecard';
 
 const Movielist = ({ title, movies }) => {
-  if (!movies || movies.length === 0) return <p className="text-white">No movies available</p>;
+  if (!movies || movies.length === 0) return <p className="text-white"></p>;
 
   return (
     <div className="px-0">

@@ -29,7 +29,10 @@ npm create vite@latest {project name}
 -added popular ,toprated etc custom hooks added
 -Gpt search Features
 -multi language features
--integrate gpt apis
+-integrate gpt api
+-secure api keys
+-make responsive website
+
  
 
 -

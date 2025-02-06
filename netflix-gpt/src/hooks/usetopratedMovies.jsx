@@ -14,7 +14,7 @@ const usetopratedMovies = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const json = await response.json();
-     // console.log('Top Rated Movies:', json.results); // Debugging
+     console.log('Top Rated Movies:', json.results); // Debugging
       dispatch(addTopratedMovies(json.results));
     } catch (error) {
       console.error('Fetch error:', error.message);

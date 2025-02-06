@@ -6,7 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useSelector ,useDispatch} from 'react-redux';
 import { addUser,removeUser } from '../assets/userSlice';
-import { LOGO_URL,Photo_Url, SUPPORTED_LANG } from '../assets/Contsant';
+import { LOGO_URL,NEW_LOGO,Photo_Url, SUPPORTED_LANG } from '../assets/Contsant';
 import {toggleGptSearchView} from '../assets/gptslice';
 import { changeLangauge } from '../assets/configslice';
 
@@ -46,12 +46,11 @@ const Header = () => {
     dispatch(changeLangauge(selectedLang)); // ✅ Fix: Dispatch action to update Redux store
   };
  
-  
   return (
     <div className="fixed  w-screen px-8  z-20 flex justify-between items-center bg-gradient-to-b from-black to-transparent ">
       <img   
         className="w-44 drop-shadow-lg bg-opacity-80 p-2 rounded-md cursor-pointer" 
-        src={LOGO_URL}
+        src={LOGO_URL      }
         alt="logo"
       />
       {user && (
@@ -61,11 +60,11 @@ const Header = () => {
           </select>}
           <button className='bg-purple-800 rounded-lg px-4 py-2 mx-2' onClick={handleGptButton}>{showGptsearch ? "Home":"Gpt Search"}</button>
           <div className="flex items-center">
-            {user?.Photo_Url ? (
+            {user?. Photo_Url ? (
               <img
                 className="h-12 w-12 rounded-full"
                 alt="user-icon"
-                src={user.photoURL}
+                src={user. Photo_Url}
               />
             ) : (
               <div className="h-12 w-12 rounded-full bg-gray-500 flex items-center justify-center text-white text-5xl cursor-pointer">
@@ -84,6 +83,5 @@ const Header = () => {
     </div>
   );
 };
-
 export default Header;
 

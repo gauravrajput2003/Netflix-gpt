@@ -2,7 +2,7 @@ import React from 'react';
 import { IMG_CDN_URL } from '../assets/Contsant';
 
 const Moviecard = ({ posterPath }) => {
-  if(!posterPath)return null;
+  if(!posterPath)return null; 
   return (
     <div className="w-64 h- flex-shrink-0"> {/* Increased dimensions */}
       <div className="relative">
