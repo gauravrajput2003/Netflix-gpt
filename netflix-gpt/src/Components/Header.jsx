@@ -47,7 +47,7 @@ const Header = () => {
   };
  
   return (
-    <div className="fixed  w-screen px-8  z-20 flex justify-between items-center bg-gradient-to-b from-black to-transparent ">
+    <div className="fixed w-full px-4 md:px-8 z-50 flex justify-between items-center bg-gradient-to-b from-black to-transparent">
       <img   
         className="w-44 drop-shadow-lg bg-opacity-80 p-2 rounded-md cursor-pointer" 
         src={LOGO_URL      }
@@ -84,4 +84,3 @@ const Header = () => {
   );
 };
 export default Header;
-

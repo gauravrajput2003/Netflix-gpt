@@ -5,17 +5,18 @@ import { BG_URL } from '../assets/Contsant'
 
 const GptSearch = () => {
   return (
-    <div>
-      <div className="fixed -z-10 ">
+    <div className="relative">
+      <div className="fixed top-0 left-0 w-full h-full -z-10">
         <img
-          className="w-full"
+          className="w-full h-full object-cover"
           src={BG_URL}
           alt="Netflix background"
         />
       </div>
-
-<GptSearchBar/>
-<GptMoviessuggestions/>
+      <div className="relative z-20 pt-[10%]">
+        <GptSearchBar/>
+        <GptMoviessuggestions/>
+      </div>
     </div>
   )
 }

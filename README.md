@@ -45,4 +45,8 @@ npm create vite@latest {project name}
      -title
      -movie suggestion
           -movie list
+          -movie list in form of cart
+          -gemeni open ai used
+- optimisation of image
+
      

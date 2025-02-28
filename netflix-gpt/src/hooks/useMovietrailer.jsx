@@ -1,32 +1,60 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addTrailervideo } from '../assets/Movieslice';
+import { useDispatch } from 'react-redux';
+import { addTrailerVideo } from '../assets/Movieslice';
 import { API_OPTION } from '../assets/Contsant';
 
-const useMovietrailer = (movie_id) => {
+const useMovietrailer = (movieId) => {
   const dispatch = useDispatch();
-  const trailerVideo=useSelector((store)=>store.movies.trailerVideo);
-  const getVideo = async () => {
+
+  const getMovieVideos = async () => {
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}/videos?language=en-US`, API_OPTION);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      if (!movieId) {
+        console.warn('No movie ID provided');
+        return;
       }
+
+      console.log('Fetching trailer for movie ID:', movieId);
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}/videos`,
+        API_OPTION
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const json = await response.json();
-     
-      const filterData = json.results.filter((video) => video.type === "Trailer");
-      const trailer = filterData.length ? filterData[1] : json.results[1];
-      dispatch(addTrailervideo(trailer));
+      console.log('Video API Response:', json);
+
+      if (!json.results || json.results.length === 0) {
+        console.warn('No videos found for movie');
+        return;
+      }
+
+      // First try to find an official trailer
+      const trailer = json.results.find(video => 
+        video.type === "Trailer" && video.official && video.site === "YouTube"
+      ) || json.results[0];
+
+      console.log('Selected trailer:', trailer);
+      
+      if (trailer?.key) {
+        dispatch(addTrailerVideo(trailer));
+      } else {
+        console.warn('No valid trailer found');
+      }
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error('Error fetching trailer:', error);
     }
   };
 
   useEffect(() => {
-    if (movie_id) {
-     !trailerVideo && getVideo();
-    }
-  }, [movie_id]);
+    getMovieVideos();
+    // Cleanup function
+    return () => {
+      dispatch(addTrailerVideo(null));
+    };
+  }, [movieId]);
 };
 
 export default useMovietrailer;
