@@ -4,7 +4,9 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/Netflix-gpt/',  // Add this line - should match your repository name
   build: {
     outDir: 'dist', // Ensures the output folder is named 'dist'
+    sourcemap: false
   },
 })
