@@ -1,22 +1,21 @@
-import React from 'react';
-import { IMG_CDN_URL } from '../assets/Contsant';
+import React from "react";
+import { TMDB_IMG_URL } from "../assets/Contsant";
 
-const Moviecard = ({ posterPath }) => {
-  if(!posterPath)return null; 
+const MovieCard = ({ movie, onClick }) => {
+  if (!movie.poster_path) return null;
+
   return (
-    <div className="w-64 h- flex-shrink-0"> {/* Increased dimensions */}
-      <div className="relative">
-        <img
-          alt="movies"
-          src={IMG_CDN_URL + posterPath}
-          className="w-full h-full object-cover rounded-lg shadow-lg cursor-pointer"
-        />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent text-white text-center py-4 rounded-b-lg">
-          <p className="text-lg font-semibold"></p>
-        </div>
-      </div>
+    <div 
+      className="w-36 md:w-48 pr-4 hover:scale-110 transition-transform duration-300 cursor-pointer"
+      onClick={() => onClick(movie)}
+    >
+      <img
+        alt={movie.title}
+        className="rounded-lg"
+        src={TMDB_IMG_URL + movie.poster_path}
+      />
     </div>
   );
 };
 
-export default Moviecard;
+export default MovieCard;
