@@ -5,7 +5,6 @@ import { API_OPTION } from '../assets/Contsant';
 
 const usetopratedMovies = () => {
   const dispatch = useDispatch();
-
   const getTopRatedMovies = async () => {
     try {
       const response = await fetch("https://api.themoviedb.org/3/movie/top_rated?page=1", API_OPTION);
@@ -20,8 +19,6 @@ const usetopratedMovies = () => {
       console.error('Fetch error:', error.message);
     }
   };
-  
-
   useEffect(() => {
     getTopRatedMovies();
   }, [dispatch]);
