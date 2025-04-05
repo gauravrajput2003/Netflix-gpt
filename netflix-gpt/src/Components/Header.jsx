@@ -54,8 +54,8 @@ const Header = () => {
     <div className="fixed w-full px-4 md:px-8 z-50 flex justify-between items-center bg-gradient-to-b from-black to-transparent">
       <img   
         className="w-44 drop-shadow-lg bg-opacity-80 p-2 rounded-md cursor-pointer" 
-        src={LOGO_URL}
-        alt="logo"
+        src="/cinify.png"
+        alt="Cinfy Logo"
       />
       {user && (
         <div className="flex items-center space-x-4">

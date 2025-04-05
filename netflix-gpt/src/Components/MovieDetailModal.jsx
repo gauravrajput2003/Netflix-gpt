@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { FaPlay, FaInfoCircle, FaTimes } from "react-icons/fa";
+import { FaPlay, FaTimes } from "react-icons/fa";
 import { TMDB_IMG_URL } from "../assets/Contsant";
 import { API_OPTION } from "../assets/Contsant";
 import { useDispatch } from "react-redux";
@@ -10,7 +10,29 @@ const MovieDetailModal = ({ movie, onClose }) => {
   const dispatch = useDispatch();
   const trailerVideo = useSelector((store) => store.movies?.trailerVideo);
 
-  // Move the fetch trailer logic directly into this component
+  // Add ESC key support to close modal
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    
+    // Add event listener
+    window.addEventListener("keydown", handleEscKey);
+    
+    // Prevent scrolling on body
+    document.body.style.overflow = "hidden";
+    
+    // Cleanup function
+    return () => {
+      window.removeEventListener("keydown", handleEscKey);
+      document.body.style.overflow = "auto";
+      dispatch(addTrailerVideo(null));
+    };
+  }, [onClose, dispatch]);
+
+  // Fetch trailer
   useEffect(() => {
     const getMovieVideos = async () => {
       try {
@@ -37,37 +59,54 @@ const MovieDetailModal = ({ movie, onClose }) => {
     };
     
     getMovieVideos();
-    
-    // Cleanup: you might want to clear the trailer when modal closes
-    return () => {
-      dispatch(addTrailerVideo(null));
-    };
   }, [movie?.id, dispatch]);
+
+  // Click outside to close
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   if (!movie) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 overflow-y-auto"
+      onClick={handleBackdropClick}
+    >
       <div className="relative bg-zinc-900 w-full max-w-5xl rounded-lg shadow-xl overflow-hidden">
-        {/* Close button */}
+        {/* Enhanced close button */}
         <button 
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 text-white bg-black bg-opacity-50 p-2 rounded-full"
+          className="absolute right-4 top-4 z-[200] text-white bg-red-600 hover:bg-red-700 p-2 rounded-full transition-all duration-200 transform hover:scale-110 shadow-lg"
+          aria-label="Close"
         >
-          <FaTimes size={20} />
+          <FaTimes size={24} />
         </button>
 
         {/* Trailer or backdrop */}
         <div className="relative w-full aspect-video">
           {trailerVideo && trailerVideo.key ? (
-            <iframe
-              className="w-full aspect-video"
-              src={`https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1&mute=0`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+            <div className="relative w-full h-full">
+              <iframe
+                className="w-full aspect-video"
+                src={`https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1&mute=0&controls=1&showinfo=0&rel=0&modestbranding=1`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+              
+              {/* Additional close button overlaid on video */}
+              {/* <button 
+                onClick={onClose}
+                className="absolute bottom-4 right-4 z-[150] text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-bold flex items-center gap-2 shadow-lg"
+              >
+                <FaTimes size={16} />
+                <span>Close Trailer</span>
+              </button> */}
+            </div>
           ) : (
             <img
               src={`${TMDB_IMG_URL}${movie.backdrop_path || movie.poster_path}`}
@@ -96,10 +135,13 @@ const MovieDetailModal = ({ movie, onClose }) => {
               <FaPlay size={18} /> 
               <span>Play</span>
             </button>
-            <button className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg font-semibold transition">
-              <FaInfoCircle size={18} />
-              <span>More Info</span>
-            </button>
+            {/* <button 
+              onClick={onClose}
+              className=" my-2 flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold transition "
+            >
+              <FaTimes size={18} />
+              <span>Close</span>
+            </button> */}
           </div>
         </div>
       </div>

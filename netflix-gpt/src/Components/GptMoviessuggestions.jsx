@@ -4,9 +4,7 @@ import Movielist from './Movielist';
 
 const GptMoviessuggestions = () => {
   const { MoviesRes, tmdbMovies } = useSelector((store) => store.gpt);
-
   if (!tmdbMovies || tmdbMovies.length === 0) return <p className="text-white"></p>;
-
   return (
     <div className='p-4 m-4 bg-black text-white bg-opacity-70'>
       <div>
@@ -17,5 +15,4 @@ const GptMoviessuggestions = () => {
     </div>
   );
 };
-
 export default GptMoviessuggestions;

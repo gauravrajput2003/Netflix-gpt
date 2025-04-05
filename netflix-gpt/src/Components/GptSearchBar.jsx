@@ -33,10 +33,9 @@ const GptSearchBar = () => {
     console.error('Error fetching data from Google Generative AI API:', error);
   }
 };
-
   return (
     <div className='pt-[10%] flex justify-center'>
-      <form className='w-1/2 bg-black grid grid-cols-12' onSubmit={(e) => { e.preventDefault(); handleGptSearch(); }}>
+      <form className='w-1/2 bg-black grid grid-cols-12 ' onSubmit={(e) => { e.preventDefault(); handleGptSearch(); }}>
         <input 
           ref={searchtext}
           type='text'
