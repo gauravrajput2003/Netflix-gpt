@@ -1,6 +1,5 @@
 import { signOut } from 'firebase/auth';
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { auth } from '../../Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
@@ -19,9 +18,7 @@ const Header = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Firebase uses photoURL (not Photo_Url)
         const { uid, email, displayName, photoURL } = user;
-        // Use the constant Photo_Url from constants instead of user's photoURL
         dispatch(addUser({ uid, email, displayName, photoURL: Photo_Url }));
         navigate("/browse");
       } else {
@@ -43,7 +40,7 @@ const Header = () => {
 
   const handleGptButton = () => {
     dispatch(toggleGptSearchView());
-  }
+  };
 
   const changelang = (event) => {
     const selectedLang = event.target.value;
@@ -51,32 +48,41 @@ const Header = () => {
   };
 
   return (
-    <div className="fixed w-full px-4 md:px-8 z-50 flex justify-between items-center bg-gradient-to-b from-black to-transparent">
-      <img   
-        className="w-44 drop-shadow-lg bg-opacity-80 p-2 rounded-md cursor-pointer" 
-        src="/cinify.png"
-        alt="Cinfy Logo"
+    <div className="fixed w-full px-4 md:px-8 z-50 flex flex-col sm:flex-row sm:justify-between items-center bg-gradient-to-b from-black to-transparent space-y-2 sm:space-y-0 py-2">
+      <img
+        className="w-36 md:w-44 drop-shadow-lg bg-opacity-80 p-2 rounded-md cursor-pointer"
+        
+      
       />
       {user && (
-        <div className="flex items-center space-x-4">
-          {showGptsearch && <select className='p-2 bg-gray-900 text-white font-mono m-2' onChange={changelang}>
-            {SUPPORTED_LANG.map((lang) => (
-              <option key={lang.identifier} value={lang.identifier}>{lang.name}</option>
-            ))}
-          </select>}
-          <button className='bg-purple-800 rounded-lg px-4 py-2 mx-2' onClick={handleGptButton}>
+        <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+          {showGptsearch && (
+            <select
+              className="p-2 bg-gray-900 text-white font-mono"
+              onChange={changelang}
+            >
+              {SUPPORTED_LANG.map((lang) => (
+                <option key={lang.identifier} value={lang.identifier}>
+                  {lang.name}
+                </option>
+              ))}
+            </select>
+          )}
+          <button
+            className="bg-purple-800 text-white rounded-lg px-4 py-2"
+            onClick={handleGptButton}
+          >
             {showGptsearch ? "Home" : "Gpt Search"}
           </button>
-          <div className="flex items-center">
-            {/* Always use the Photo_Url from constants */}
+          <div className="flex items-center space-x-2">
             <img
-              className="h-12 w-12 rounded-full"
+              className="h-10 w-10 rounded-full"
               alt="user-icon"
               src={Photo_Url}
             />
             <button
               onClick={handleSignout}
-              className="ml-4 text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded"
+              className="text-white bg-red-600 hover:bg-red-700 px-3 py-2 rounded"
             >
               Sign Out
             </button>
